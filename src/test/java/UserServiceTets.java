@@ -1,10 +1,7 @@
-import epam.cinemaProject.services.UserService;
-import epam.cinemaProject.services.UserServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
+import epam.cinemaProject.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 class UserServiceTets {

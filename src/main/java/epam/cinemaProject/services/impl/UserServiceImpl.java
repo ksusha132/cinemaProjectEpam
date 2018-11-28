@@ -1,21 +1,17 @@
-package epam.cinemaProject.services;
+package epam.cinemaProject.services.impl;
 
 import com.sun.istack.internal.NotNull;
 import epam.cinemaProject.pojo.user.Role;
 import epam.cinemaProject.pojo.user.User;
+import epam.cinemaProject.services.UserService;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 public class UserServiceImpl implements UserService {
 
     private ConcurrentHashMap<Long, User> userList = new ConcurrentHashMap<>();
 
-    private static AtomicLong idCounter = new AtomicLong(1);
-
-    private static Long createID() {
-        return idCounter.incrementAndGet();
-    }
 
     @Override
     public User getUserById(@NotNull Long id) {
@@ -33,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(@NotNull String name, @NotNull String lastName, @NotNull String email) {
         User user = new User();
-        Long id = createID();
+        Long id = ServiceHelper.createID();
         user.setId(id);
         user.setName(name);
         user.setLastName(lastName);

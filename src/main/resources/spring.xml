@@ -13,5 +13,5 @@
         <property name="email" value="ivser@mail.com"/>
     </bean>
 
-    <bean id="userService" class="epam.cinemaProject.services.UserServiceImpl"/>
+    <bean id="userService" class="epam.cinemaProject.services.impl.UserServiceImpl"/>
 </beans>
