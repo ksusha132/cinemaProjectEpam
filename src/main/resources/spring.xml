@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
- 		http://www.springframework.org/schema/beans
- 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="user" class="epam.cinemaProject.pojo.user.User">
         <property name="id" value="1"/>
@@ -13,5 +12,22 @@
         <property name="email" value="ivser@mail.com"/>
     </bean>
 
+
+    <bean id="birthDayStrategy" class="epam.cinemaProject.discountStrategies.BirthDayStrategy"/>
+    <bean id="everyTenTicketStrategy" class="epam.cinemaProject.discountStrategies.EveryTenTicketStrategy"/>
+    <bean id="newYearStrategy" class="epam.cinemaProject.discountStrategies.NewYearStrategy"/>
+
     <bean id="userService" class="epam.cinemaProject.services.impl.UserServiceImpl"/>
+    <bean id="eventService" class="epam.cinemaProject.services.impl.EventServiceImpl"/>
+    <bean id="discountService" class="epam.cinemaProject.services.impl.DiscountServiceImpl">
+        <constructor-arg>
+            <map>
+                <entry key="birthDayStrategy" value-ref="birthDayStrategy"/>
+                <entry key="everyTenTicketStrategy" value-ref="everyTenTicketStrategy"/>
+                <entry key="newYearStrategy" value-ref="newYearStrategy"/>
+            </map>
+        </constructor-arg>
+    </bean>
+    <bean id="bookingService" class="epam.cinemaProject.services.impl.BookingServiceImpl"/>
+    <bean id="auditoriumService" class="epam.cinemaProject.services.impl.AuditoriumServiceImpl"/>
 </beans>

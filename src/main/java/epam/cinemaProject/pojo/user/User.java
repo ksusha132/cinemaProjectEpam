@@ -2,11 +2,13 @@ package epam.cinemaProject.pojo.user;
 
 import epam.cinemaProject.pojo.cinema.Ticket;
 
+import java.time.LocalDate;
 import java.util.NavigableSet;
 import java.util.Objects;
 import java.util.TreeSet;
 
 public class User {
+
     private  Long id;
 
     private String name;
@@ -14,6 +16,8 @@ public class User {
     private String lastName;
 
     private String email;
+
+    private LocalDate birthDay;
 
     private Role role;
 
@@ -65,6 +69,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public LocalDate getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(LocalDate birthDay) {
+        this.birthDay = birthDay;
     }
 
     @Override
