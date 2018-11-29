@@ -52,8 +52,20 @@ public class AuditoriumServiceImpl implements AuditoriumService {
         auditorium.setId(ServiceHelper.createID());
         auditorium.setName(prop.getProperty("name"));
         auditorium.setNumberOfSeats(Integer.valueOf(prop.getProperty("numberOfSeats")));
-        auditorium.setVipSeats(prop.getProperty("vipSeats"));
+        auditorium.setVipSeats(parseSeats(prop.getProperty("vipSeats")));
         return auditorium;
+    }
+
+    private Set<Integer> parseSeats(String seats){
+
+        Set<Integer> integerSet = new HashSet<>();
+        String[] setSeat = seats.split(",");
+
+        for (String i: setSeat) {
+            integerSet.add(Integer.valueOf(i));
+        }
+
+        return integerSet;
     }
 
     @Override

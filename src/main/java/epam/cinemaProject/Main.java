@@ -12,9 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -45,13 +43,29 @@ public class Main {
                 Auditorium auditorium = new Auditorium();
                 auditorium.setName(prop.getProperty("name"));
                 auditorium.setNumberOfSeats(Integer.valueOf(prop.getProperty("numberOfSeats")));
-                auditorium.setVipSeats(prop.getProperty("vipSeats"));
+                //auditorium.setVipSeats(prop.getProperty("vipSeats"));
                 auditoriums.add(auditorium);
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
         });
 
-        auditoriums.forEach(auditorium -> System.out.println(auditorium.getName()));
+        auditoriums.forEach(auditorium -> System.out.println(auditorium.getName()
+                + auditorium.getNumberOfSeats()
+                + auditorium.getVipSeats()));
+        String seats = "32,34,45,56,66";
+
+
+        Set<Integer> setIntegerSeats = new HashSet<>();
+
+        String[] setSeat = seats.split(",");
+        for (String i: setSeat) {
+            setIntegerSeats.add(Integer.valueOf(i));
+        }
+
+        System.out.println("____________________");
+        setIntegerSeats.forEach(System.out::println);
+
+
     }
 }

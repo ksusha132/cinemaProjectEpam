@@ -1,10 +1,12 @@
 package epam.cinemaProject.pojo.cinema;
 
+import java.util.Set;
+
 public class Auditorium {
     private Long id;
     private String name;
     private Integer numberOfSeats;
-    private String vipSeats;
+    private Set<Integer> vipSeats;
 
     public Long getId() {
         return id;
@@ -30,11 +32,11 @@ public class Auditorium {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public String getVipSeats() {
+    public Set<Integer> getVipSeats() {
         return vipSeats;
     }
 
-    public void setVipSeats(String vipSeats) {
+    public void setVipSeats(Set<Integer> vipSeats) {
         this.vipSeats = vipSeats;
     }
 }
