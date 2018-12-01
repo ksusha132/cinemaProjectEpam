@@ -6,5 +6,5 @@ import epam.cinemaProject.pojo.user.User;
 import java.time.LocalDateTime;
 
 public interface DiscountService {
-    Double getDiscount(User user, Event event, LocalDateTime dateTime, Integer numberOfTickets);
+    Integer getDiscount(User user, Event event, LocalDateTime dateTime, Integer numberOfTickets);
 }

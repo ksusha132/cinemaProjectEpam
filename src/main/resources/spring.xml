@@ -20,13 +20,13 @@
     <bean id="userService" class="epam.cinemaProject.services.impl.UserServiceImpl"/>
     <bean id="eventService" class="epam.cinemaProject.services.impl.EventServiceImpl"/>
     <bean id="discountService" class="epam.cinemaProject.services.impl.DiscountServiceImpl">
-        <constructor-arg>
-            <map>
-                <entry key="birthDayStrategy" value-ref="birthDayStrategy"/>
-                <entry key="everyTenTicketStrategy" value-ref="everyTenTicketStrategy"/>
-                <entry key="newYearStrategy" value-ref="newYearStrategy"/>
-            </map>
-        </constructor-arg>
+        <property name="strategies">
+            <list>
+                <ref bean="birthDayStrategy"/>
+                <ref bean="everyTenTicketStrategy"/>
+                <ref bean="newYearStrategy"/>
+            </list>
+        </property>
     </bean>
     <bean id="bookingService" class="epam.cinemaProject.services.impl.BookingServiceImpl"/>
     <bean id="auditoriumService" class="epam.cinemaProject.services.impl.AuditoriumServiceImpl"/>
