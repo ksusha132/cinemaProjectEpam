@@ -163,4 +163,27 @@ public class Event {
                 .anyMatch(dt -> dt.toLocalDate().compareTo(from) >= 0 && dt.toLocalDate().compareTo(to) <= 0);
     }
 
+    public void clearAuditoriumAndAirdates() {
+        auditoriums.clear();
+    }
+
+    public void clearAirDates() {
+        airDates.clear();
+    }
+
+    public NavigableSet<LocalDateTime> getAirDates() {
+        return airDates;
+    }
+
+    public void setAirDates(NavigableSet<LocalDateTime> airDates) {
+        this.airDates = airDates;
+    }
+
+    public NavigableMap<LocalDateTime, Auditorium> getAuditoriums() {
+        return auditoriums;
+    }
+
+    public void setAuditoriums(NavigableMap<LocalDateTime, Auditorium> auditoriums) {
+        this.auditoriums = auditoriums;
+    }
 }

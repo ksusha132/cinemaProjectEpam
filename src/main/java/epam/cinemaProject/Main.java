@@ -2,8 +2,11 @@ package epam.cinemaProject;
 
 import epam.cinemaProject.pojo.cinema.Auditorium;
 import epam.cinemaProject.pojo.cinema.Event;
+import epam.cinemaProject.pojo.cinema.Rating;
 import epam.cinemaProject.pojo.user.User;
+import epam.cinemaProject.services.AuditoriumService;
 import epam.cinemaProject.services.DiscountService;
+import epam.cinemaProject.services.EventService;
 import epam.cinemaProject.services.UserService;
 import epam.cinemaProject.services.impl.UserServiceImpl;
 import org.apache.commons.io.FileUtils;
@@ -16,12 +19,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Throwable {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         UserService userService = context.getBean("userService", UserServiceImpl.class);
         userService.registerUser("Sena", "Senov", "sese@mail.com", "1993-02-04");
@@ -78,5 +79,29 @@ public class Main {
         DiscountService discountService = (DiscountService) context.getBean("discountService");
         System.out.println(discountService.getDiscount(user, new Event(), LocalDateTime.parse("2018-12-29 10:30", formatter), 10));
 
+
+        System.out.println("____________________");
+
+
+        // dejavue - 10:00 - 12:00, 16:00 - 18:00
+        // rush - 12:00 - 14:00, --- redStage
+        // ghost - 14:00 - 16:00, 18:00 - 20:00
+
+        // fight - 10:00 - 12:00, 16:00 - 18:00
+        // Jason - 12:00 - 14:00, --- greenStage
+        // Freddy - 14:00 - 16:00, 18:00 - 20:00
+
+        // melancholy - 10:00 - 12:00, 16:00 - 18:00
+        // island - 12:00 - 14:00, --- blueStage
+        // it - 14:00 - 16:00, 18:00 - 20:00
+        EventService eventService = (EventService) context.getBean("eventService");
+        AuditoriumService auditoriumService = (AuditoriumService) context.getBean("auditoriumService");
+        auditoriumService.getAllAuditoriums();
+        List<LocalDateTime> events = new ArrayList<>();
+        events.add(LocalDateTime.parse("2018-12-29 10:00", formatter));
+        events.add(LocalDateTime.parse("2018-12-29 16:00", formatter));
+        eventService.saveEvent("dejavue", Rating.HIGH, 100, events, "redStage");
+        System.out.println(eventService.getAll().size());
+        System.out.println(eventService.getByName("dejavue").getName());
     }
 }

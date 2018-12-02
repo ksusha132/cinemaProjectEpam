@@ -17,18 +17,6 @@ public class EventServiceImpl implements EventService {
     HashSet<Event> events = new HashSet<>();
     private AuditoriumServiceImpl auditoriumService;
 
-    // dejavue - 10:00 - 12:00, 16:00 - 18:00
-    // rush - 12:00 - 14:00, --- redStage
-    // ghost - 14:00 - 16:00, 18:00 - 20:00
-
-    // fight - 10:00 - 12:00, 16:00 - 18:00
-    // Jason - 12:00 - 14:00, --- greenStage
-    // Freddy - 14:00 - 16:00, 18:00 - 20:00
-
-    // melancholy - 10:00 - 12:00, 16:00 - 18:00
-    // island - 12:00 - 14:00, --- blueStage
-    // it - 14:00 - 16:00, 18:00 - 20:00
-
     private static Predicate<Event> isIdMatch(Long id) {
         return event -> event.getId().equals(id);
     }
@@ -38,7 +26,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Required
-    public void setStrategies(AuditoriumServiceImpl auditoriumService) {
+    public void setAuditoriumService(AuditoriumServiceImpl auditoriumService) {
         this.auditoriumService = auditoriumService;
     }
 
@@ -65,6 +53,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void removeEvent(Long id) throws Throwable {
         Event event = getEventBy(isIdMatch(id));
+        event.clearAuditoriumAndAirdates();
         events.remove(event);
     }
 
