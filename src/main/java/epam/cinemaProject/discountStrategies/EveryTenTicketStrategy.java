@@ -13,7 +13,9 @@ public class EveryTenTicketStrategy implements DiscountCounter {
     public Integer countDiscount(User user, Event event, LocalDateTime airDateTime, Integer numberOfTickets) {
         if (user != null) {
             Integer tickets = user.getTickets().size() + 1;
-            return tickets % 10 == 0 ? 50 : 0; // for logged in user
+            if (tickets % 10 == 0) {
+                return 50;
+            }
         }
 
         if (numberOfTickets >= 10) {

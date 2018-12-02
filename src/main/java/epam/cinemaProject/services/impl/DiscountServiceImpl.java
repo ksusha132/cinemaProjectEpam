@@ -21,7 +21,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public Integer getDiscount(User user, Event event, LocalDateTime airDateTime, Integer numberOfTickets) {
-        // check if  every discount available if 2 of them - get the higher one
+        // check if  every discount available if 3 of them - get the higher one
         return Optional.of(strategies.stream()
                 .mapToInt(strategy -> strategy.countDiscount(user, event, airDateTime, numberOfTickets))
                 .max()

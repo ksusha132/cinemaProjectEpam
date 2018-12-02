@@ -27,14 +27,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(@NotNull String name, @NotNull String lastName, @NotNull String email) {
+    public void registerUser(@NotNull String name, @NotNull String lastName, @NotNull String email, String birthDay) {
         User user = new User();
         Long id = ServiceHelper.createID();
         user.setId(id);
         user.setName(name);
         user.setLastName(lastName);
         user.setEmail(email);
-        user.setRole(Role.USER); // default value
+        user.setBirthDay(birthDay);
+        user.setRole(Role.USER);
         userList.put(id, user);
     }
 

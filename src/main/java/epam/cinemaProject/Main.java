@@ -1,7 +1,9 @@
 package epam.cinemaProject;
 
 import epam.cinemaProject.pojo.cinema.Auditorium;
+import epam.cinemaProject.pojo.cinema.Event;
 import epam.cinemaProject.pojo.user.User;
+import epam.cinemaProject.services.DiscountService;
 import epam.cinemaProject.services.UserService;
 import epam.cinemaProject.services.impl.UserServiceImpl;
 import org.apache.commons.io.FileUtils;
@@ -12,15 +14,19 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         UserService userService = context.getBean("userService", UserServiceImpl.class);
-        userService.registerUser("Sena", "Senov", "sese@mail.com");
-        userService.registerUser("Lena ", "Lenov", "lele@mail.com");
-        userService.registerUser("Bena", "Benov", "bebe@mail.com");
+        userService.registerUser("Sena", "Senov", "sese@mail.com", "1993-02-04");
+        userService.registerUser("Lena ", "Lenov", "lele@mail.com", "1993-04-12");
+        userService.registerUser("Bena", "Benov", "bebe@mail.com", "1995-06-14");
         User user = userService.getByEmail("sese@mail.com");
         System.out.println(user.getId());
         User user1 = userService.getUserById(3L);
@@ -59,13 +65,18 @@ public class Main {
         Set<Integer> setIntegerSeats = new HashSet<>();
 
         String[] setSeat = seats.split(",");
-        for (String i: setSeat) {
+        for (String i : setSeat) {
             setIntegerSeats.add(Integer.valueOf(i));
         }
 
         System.out.println("____________________");
         setIntegerSeats.forEach(System.out::println);
 
+        System.out.println("____________________");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        DiscountService discountService = (DiscountService) context.getBean("discountService");
+        System.out.println(discountService.getDiscount(user, new Event(), LocalDateTime.parse("2018-12-29 10:30", formatter), 10));
 
     }
 }

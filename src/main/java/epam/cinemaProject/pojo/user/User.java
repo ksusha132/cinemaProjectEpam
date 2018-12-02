@@ -3,13 +3,14 @@ package epam.cinemaProject.pojo.user;
 import epam.cinemaProject.pojo.cinema.Ticket;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.NavigableSet;
 import java.util.Objects;
 import java.util.TreeSet;
 
 public class User {
 
-    private  Long id;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private String name;
 
@@ -71,12 +72,14 @@ public class User {
         this.role = role;
     }
 
+    private Long id;
+
     public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDay(String birthDay) {
+        this.birthDay = LocalDate.parse(birthDay, formatter);
     }
 
     @Override

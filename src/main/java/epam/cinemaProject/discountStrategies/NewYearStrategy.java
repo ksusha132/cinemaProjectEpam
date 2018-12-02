@@ -11,7 +11,7 @@ public class NewYearStrategy implements DiscountCounter {
 
     @Override
     public Integer countDiscount(User user, Event event, LocalDateTime airDateTime, Integer numberOfTickets) {
-        return isDiscountAvailable(airDateTime, user) ? 10 : 0;
+        return isDiscountAvailable(airDateTime, user) ? 70 : 0;
     }
 
     private Boolean isDiscountAvailable(LocalDateTime airDateTime, User user) {

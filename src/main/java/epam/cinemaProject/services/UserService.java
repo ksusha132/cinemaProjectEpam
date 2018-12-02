@@ -9,7 +9,7 @@ public interface UserService {
 
     User getByEmail(String email);
 
-    void registerUser(String name, String lastName, String email);
+    void registerUser(String name, String lastName, String email, String birthDay);
 
     void deleteUser(Long id);
 
