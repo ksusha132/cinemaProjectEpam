@@ -33,6 +33,8 @@
             </list>
         </property>
     </bean>
-    <bean id="bookingService" class="epam.cinemaProject.services.impl.BookingServiceImpl"/>
+    <bean id="bookingService" class="epam.cinemaProject.services.impl.BookingServiceImpl">
+        <property name="discountService" ref="discountService"/>
+    </bean>
 
 </beans>
