@@ -18,8 +18,8 @@ public class BirthDayStrategy implements DiscountCounter {
         if (user == null) {
             return false;
         }
-        LocalDate birthDay = user.getBirthDay();
-        LocalDate airDate = airDateTime.toLocalDate();
+        LocalDate birthDay = user.getBirthDay(); // day and month
+        LocalDate airDate = airDateTime.toLocalDate(); // day and month need
         return birthDay.isAfter(airDate.minusDays(5)) && birthDay.isBefore(airDate.plusDays(5));
 
     }

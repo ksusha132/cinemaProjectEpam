@@ -18,7 +18,12 @@
     <bean id="newYearStrategy" class="epam.cinemaProject.discountStrategies.NewYearStrategy"/>
 
     <bean id="userService" class="epam.cinemaProject.services.impl.UserServiceImpl"/>
-    <bean id="eventService" class="epam.cinemaProject.services.impl.EventServiceImpl"/>
+    <bean id="auditoriumService" class="epam.cinemaProject.services.impl.AuditoriumServiceImpl"/>
+
+    <bean id="eventService" class="epam.cinemaProject.services.impl.EventServiceImpl">
+        <property name="auditoriumService" ref="auditoriumService"/>
+    </bean>
+
     <bean id="discountService" class="epam.cinemaProject.services.impl.DiscountServiceImpl">
         <property name="strategies">
             <list>
@@ -29,5 +34,5 @@
         </property>
     </bean>
     <bean id="bookingService" class="epam.cinemaProject.services.impl.BookingServiceImpl"/>
-    <bean id="auditoriumService" class="epam.cinemaProject.services.impl.AuditoriumServiceImpl"/>
+
 </beans>
