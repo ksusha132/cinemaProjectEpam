@@ -1,13 +1,18 @@
 package epam.cinemaProject.services;
 
+import epam.cinemaProject.pojo.cinema.BookedTicket;
 import epam.cinemaProject.pojo.cinema.Event;
+import epam.cinemaProject.pojo.user.User;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public interface BookingService {
-    Double getTicketPrice();
+    Double getTicketsPrice(Event event, LocalDateTime dateTime, User user, String seats) throws Throwable;
 
-    void bookTickets();
+    void bookTickets(BookedTicket ticket);
 
-    void getPurchasedTicketsForEvent(Event event, LocalDateTime dateTime);
+    Set<BookedTicket> getPurchasedTicketsForEvent(Event event, LocalDateTime dateTime);
+
+    Set<Integer> getNumbersOfBookedTickets(Event event, LocalDateTime dateTime);
 }

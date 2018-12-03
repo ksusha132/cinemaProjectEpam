@@ -1,36 +1,71 @@
 package epam.cinemaProject.services.impl;
 
+import epam.cinemaProject.pojo.cinema.BookedTicket;
 import epam.cinemaProject.pojo.cinema.Event;
+import epam.cinemaProject.pojo.cinema.Rating;
+import epam.cinemaProject.pojo.cinema.Store;
+import epam.cinemaProject.pojo.user.User;
+import epam.cinemaProject.services.AuditoriumService;
 import epam.cinemaProject.services.DiscountService;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class BookingServiceImpl implements epam.cinemaProject.services.BookingService{
+public class BookingServiceImpl implements epam.cinemaProject.services.BookingService {
 
     private DiscountService discountService;
+    private AuditoriumService auditoriumService;
 
     @Required
     public void setDiscountService(DiscountService discountService) {
         this.discountService = discountService;
     }
 
-    @Override
-    public Double getTicketPrice() {
-        return null;
+    @Required
+    public void setAuditoriumService(AuditoriumService auditoriumService) {
+        this.auditoriumService = auditoriumService;
     }
 
     @Override
-    public void bookTickets() {
+    public Double getTicketsPrice(Event event, LocalDateTime dateTime, User user, String seats {
+        Set<Integer> vipSeats = auditoriumService.getByName(event.getAuditoriums().get(0).getName()).getVipSeats(); // optional
+        Set<Integer> wantedSeats = ServiceHelper.parseSeats(seats);
 
+        Double basePrice = getBasePrice(event);
+        Integer discount = discountService.getDiscount(user, event, dateTime, wantedSeats.size());
+
+        Double total = null;
+
+
+        return total;
+    }
+
+    private Double getBasePrice(Event event) {
+        if (event.getRating().equals(Rating.HIGH)) {
+            return event.getBasePrice() * 1.2; // the price will be the same for each period of time
+        } else {
+            return event.getBasePrice();
+        }
     }
 
     @Override
-    public void getPurchasedTicketsForEvent(Event event, LocalDateTime dateTime) {
-
+    public void bookTickets(BookedTicket ticket) {
+        Store.setToBoockedTicketsList(ticket);
     }
 
-    private boolean isAvailable() {
-        return false;
+    @Override
+    public Set<BookedTicket> getPurchasedTicketsForEvent(Event event, LocalDateTime dateTime) {
+        return Store.getBookedTickets();
+    }
+
+    @Override
+    public Set<Integer> getNumbersOfBookedTickets(Event event, LocalDateTime dateTime) { // at first person see booked seats
+        return Store.getBookedTickets().stream()
+                .filter(bookedTicket -> bookedTicket.getEvent().equals(event))
+                .filter(bookedTicket -> bookedTicket.getTime().equals(dateTime))
+                .map(BookedTicket::getSeat)
+                .collect(Collectors.toSet());
     }
 }

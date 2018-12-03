@@ -11,17 +11,13 @@ public class EveryTenTicketStrategy implements DiscountCounter {
 
     @Override
     public Integer countDiscount(User user, Event event, LocalDateTime airDateTime, Integer numberOfTickets) {
-        if (user != null) {
-            Integer tickets = user.getTickets().size() + 1;
-            if (tickets % 10 == 0) {
-                return 50;
-            }
+        if (user != null || numberOfTickets > 10) {
+            double price = event.getBasePrice();
+            long discountTicket = numberOfTickets / 10;
+            double discountPrice = numberOfTickets * price - discountTicket * price * 0.5;
+            double regularPrice = numberOfTickets * price;
+            return (int) Math.round(((regularPrice - discountPrice) / regularPrice) * 100);
         }
-
-        if (numberOfTickets >= 10) {
-            return 50; // not logged in user
-        }
-
         return 0;
     }
 }

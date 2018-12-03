@@ -1,13 +1,8 @@
 package epam.cinemaProject;
 
-import epam.cinemaProject.pojo.cinema.Auditorium;
-import epam.cinemaProject.pojo.cinema.Event;
-import epam.cinemaProject.pojo.cinema.Rating;
+import epam.cinemaProject.pojo.cinema.*;
 import epam.cinemaProject.pojo.user.User;
-import epam.cinemaProject.services.AuditoriumService;
-import epam.cinemaProject.services.DiscountService;
-import epam.cinemaProject.services.EventService;
-import epam.cinemaProject.services.UserService;
+import epam.cinemaProject.services.*;
 import epam.cinemaProject.services.impl.UserServiceImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -94,14 +89,51 @@ public class Main {
         // melancholy - 10:00 - 12:00, 16:00 - 18:00
         // island - 12:00 - 14:00, --- blueStage
         // it - 14:00 - 16:00, 18:00 - 20:00
+
         EventService eventService = (EventService) context.getBean("eventService");
         AuditoriumService auditoriumService = (AuditoriumService) context.getBean("auditoriumService");
         auditoriumService.getAllAuditoriums();
-        List<LocalDateTime> events = new ArrayList<>();
-        events.add(LocalDateTime.parse("2018-12-29 10:00", formatter));
-        events.add(LocalDateTime.parse("2018-12-29 16:00", formatter));
-        eventService.saveEvent("dejavue", Rating.HIGH, 100, events, "redStage");
+
+        List<LocalDateTime> dateTimes = new ArrayList<>();
+        dateTimes.add(LocalDateTime.parse("2018-12-29 10:00", formatter));
+        dateTimes.add(LocalDateTime.parse("2018-12-29 16:00", formatter));
+        eventService.saveEvent("dejavue", Rating.HIGH, 100, dateTimes, "redStage");
         System.out.println(eventService.getAll().size());
-        System.out.println(eventService.getByName("dejavue").getName());
+        Event event = eventService.getByName("dejavue");
+
+        BookedTicket bookedTicket = new BookedTicket();
+        bookedTicket.setEvent(event);
+        bookedTicket.setTime(LocalDateTime.parse("2018-12-29 10:00", formatter));
+        bookedTicket.setSeat(1);
+
+        BookedTicket bookedTicket1 = new BookedTicket();
+        bookedTicket1.setEvent(event);
+        bookedTicket1.setTime(LocalDateTime.parse("2018-12-29 10:00", formatter));
+        bookedTicket1.setSeat(2);
+
+        BookedTicket bookedTicket3 = new BookedTicket();
+        bookedTicket3.setEvent(event);
+        bookedTicket3.setTime(LocalDateTime.parse("2018-12-29 10:00", formatter));
+        bookedTicket3.setSeat(31);
+
+        BookedTicket bookedTicket4 = new BookedTicket();
+        bookedTicket4.setEvent(event);
+        bookedTicket4.setTime(LocalDateTime.parse("2018-12-29 10:00", formatter));
+        bookedTicket4.setSeat(32);
+
+        Store.setToBoockedTicketsList(bookedTicket);
+        Store.setToBoockedTicketsList(bookedTicket1);
+        Store.setToBoockedTicketsList(bookedTicket3);
+        Store.setToBoockedTicketsList(bookedTicket4);
+
+        Store.getBookedTickets().forEach(bookedTicketN -> {
+            System.out.println(bookedTicketN.getEvent().getName() + bookedTicketN.getSeat() + bookedTicketN.getTime());
+        });
+
+        System.out.println("____________________");
+
+        BookingService bookingService = (BookingService) context.getBean("bookingService");
+        Set<Integer> integerSet = bookingService.getNumbersOfBookedTickets(event, LocalDateTime.parse("2018-12-29 10:00", formatter));
+        integerSet.forEach(System.out::println);
     }
 }

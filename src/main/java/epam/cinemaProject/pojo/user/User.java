@@ -1,6 +1,6 @@
 package epam.cinemaProject.pojo.user;
 
-import epam.cinemaProject.pojo.cinema.Ticket;
+import epam.cinemaProject.pojo.cinema.BookedTicket;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +22,7 @@ public class User {
 
     private Role role;
 
-    private NavigableSet<Ticket> tickets = new TreeSet<>();
+    private NavigableSet<BookedTicket> tickets = new TreeSet<>();
 
     public Long getId() {
         return id;
@@ -56,11 +56,11 @@ public class User {
         this.email = email;
     }
 
-    public NavigableSet<Ticket> getTickets() {
+    public NavigableSet<BookedTicket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(NavigableSet<Ticket> tickets) {
+    public void setTickets(NavigableSet<BookedTicket> tickets) {
         this.tickets = tickets;
     }
 
