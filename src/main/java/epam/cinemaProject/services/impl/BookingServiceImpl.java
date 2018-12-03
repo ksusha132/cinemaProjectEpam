@@ -29,17 +29,18 @@ public class BookingServiceImpl implements epam.cinemaProject.services.BookingSe
     }
 
     @Override
-    public Double getTicketsPrice(Event event, LocalDateTime dateTime, User user, String seats {
-        Set<Integer> vipSeats = auditoriumService.getByName(event.getAuditoriums().get(0).getName()).getVipSeats(); // optional
+    public Double getTicketsPrice(Event event, LocalDateTime dateTime, User user, String seats) {
+        Set<Integer> vipSeats = auditoriumService.getByName(event.getAuditoriums().firstEntry().getValue().getName()).getVipSeats(); // optional
         Set<Integer> wantedSeats = ServiceHelper.parseSeats(seats);
 
         Double basePrice = getBasePrice(event);
         Integer discount = discountService.getDiscount(user, event, dateTime, wantedSeats.size());
 
-        Double total = null;
+        Long countVipSeats = wantedSeats.stream().filter(vipSeats::contains).count(); // count vip ticket
+        Long seatsTotal = (long) wantedSeats.size(); // all wanted ticket
 
+        return (basePrice * countVipSeats * 2) + ((seatsTotal - countVipSeats) * basePrice);
 
-        return total;
     }
 
     private Double getBasePrice(Event event) {

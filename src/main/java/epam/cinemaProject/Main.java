@@ -135,5 +135,7 @@ public class Main {
         BookingService bookingService = (BookingService) context.getBean("bookingService");
         Set<Integer> integerSet = bookingService.getNumbersOfBookedTickets(event, LocalDateTime.parse("2018-12-29 10:00", formatter));
         integerSet.forEach(System.out::println);
+
+        System.out.println(bookingService.getTicketsPrice(event, LocalDateTime.parse("2018-12-29 10:00", formatter), user, seats));
     }
 }
