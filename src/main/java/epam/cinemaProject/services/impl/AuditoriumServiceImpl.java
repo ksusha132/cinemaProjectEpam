@@ -4,6 +4,7 @@ import epam.cinemaProject.pojo.cinema.Auditorium;
 import epam.cinemaProject.services.AuditoriumService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+@Service
 public class AuditoriumServiceImpl implements AuditoriumService {
 
     private final String PATH = "/Users/ksusha/Downloads/cinemaProject/src/main/resources/";
@@ -55,7 +57,6 @@ public class AuditoriumServiceImpl implements AuditoriumService {
         auditorium.setVipSeats(ServiceHelper.parseSeats(prop.getProperty("vipSeats")));
         return auditorium;
     }
-
 
 
     @Override

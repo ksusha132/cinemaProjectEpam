@@ -1,29 +1,29 @@
 package epam.cinemaProject.services.impl;
 
 import com.sun.istack.internal.NotNull;
+import epam.cinemaProject.dao.UserDao;
 import epam.cinemaProject.pojo.user.Role;
 import epam.cinemaProject.pojo.user.User;
 import epam.cinemaProject.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-
+@Service
 public class UserServiceImpl implements UserService {
 
-    private ConcurrentHashMap<Long, User> userList = new ConcurrentHashMap<>();
-
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public User getUserById(@NotNull Long id) {
-        return userList.get(id);
+        return userDao.getById(id);
     }
 
     @Override
     public User getByEmail(@NotNull final String email) {
-        return userList.values().stream()
-                .filter(user -> user.getEmail().equalsIgnoreCase(email))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("There is no user with such email"));
+        return userDao.getByEmail(email);
     }
 
     @Override
@@ -36,17 +36,17 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setBirthDay(birthDay);
         user.setRole(Role.USER);
-        userList.put(id, user);
+        userDao.save(user);
     }
 
     @Override
     public void deleteUser(@NotNull Long id) {
         // check if user deleted
-        userList.remove(id);
+        userDao.delete(id);
     }
 
     @Override
     public ConcurrentHashMap<Long, User> getAllUsers() {
-        return userList;
+        return userDao.getAll();
     }
 }
