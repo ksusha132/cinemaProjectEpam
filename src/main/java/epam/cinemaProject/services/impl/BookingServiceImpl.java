@@ -7,7 +7,7 @@ import epam.cinemaProject.pojo.cinema.Store;
 import epam.cinemaProject.pojo.user.User;
 import epam.cinemaProject.services.AuditoriumService;
 import epam.cinemaProject.services.DiscountService;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -15,18 +15,10 @@ import java.util.stream.Collectors;
 
 public class BookingServiceImpl implements epam.cinemaProject.services.BookingService {
 
+    @Autowired
     private DiscountService discountService;
+    @Autowired
     private AuditoriumService auditoriumService;
-
-    @Required
-    public void setDiscountService(DiscountService discountService) {
-        this.discountService = discountService;
-    }
-
-    @Required
-    public void setAuditoriumService(AuditoriumService auditoriumService) {
-        this.auditoriumService = auditoriumService;
-    }
 
     @Override
     public Double getTicketsPrice(Event event, LocalDateTime dateTime, User user, String seats) {

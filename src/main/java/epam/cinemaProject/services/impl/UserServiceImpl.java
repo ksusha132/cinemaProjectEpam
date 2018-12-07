@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service
+@Service("UserService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(@NotNull Long id) {
-        // check if user deleted
         userDao.delete(id);
     }
 

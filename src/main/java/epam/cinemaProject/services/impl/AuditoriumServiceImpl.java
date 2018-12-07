@@ -2,69 +2,45 @@ package epam.cinemaProject.services.impl;
 
 import epam.cinemaProject.pojo.cinema.Auditorium;
 import epam.cinemaProject.services.AuditoriumService;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-@Service
+@Service("AuditoriumService")
 public class AuditoriumServiceImpl implements AuditoriumService {
 
-    private final String PATH = "/Users/ksusha/Downloads/cinemaProject/src/main/resources/";
-    private HashSet<String> set = new HashSet<>();
+    private Set<Auditorium> auditoriumSet = new HashSet<>();
 
-    private void getListFile() {
-        File directory = new File("/Users/ksusha/Downloads/cinemaProject/src/main/resources/");
-        FileUtils.listFiles(directory, new WildcardFileFilter("*.properties"), null)
-                .forEach(file -> {
-                    set.add(file.getName());
-                });
+    private void fillInAuditoriumSet() throws IOException {
+        auditoriumSet.add(parseAuditorium("auditorium1SeatsVip.properties"));
+        auditoriumSet.add(parseAuditorium("auditorium2SeatsVip.properties"));
+        auditoriumSet.add(parseAuditorium("auditorium3SeatsVip.properties"));
     }
 
     @Override
-    public Set<Auditorium> getAllAuditoriums() {
-        return getAuditoriumsSet();
+    public Set<Auditorium> getAllAuditoriums() throws IOException {
+        fillInAuditoriumSet();
+        return auditoriumSet;
     }
-
-    private Set<Auditorium> getAuditoriumsSet() {
-        getListFile();
-        Properties prop = new Properties();
-        Set<Auditorium> auditoriums = new HashSet<>();
-        set.forEach(el -> {
-            try {
-                InputStream inputStream = new FileInputStream(PATH + el);
-                prop.load(inputStream);
-                Auditorium auditorium = createAuditorium(prop);
-                auditoriums.add(auditorium);
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
-        });
-        return auditoriums;
-    }
-
-    private Auditorium createAuditorium(Properties prop) {
-        Auditorium auditorium = new Auditorium();
-        auditorium.setId(ServiceHelper.createID());
-        auditorium.setName(prop.getProperty("name"));
-        auditorium.setNumberOfSeats(Integer.valueOf(prop.getProperty("numberOfSeats")));
-        auditorium.setVipSeats(ServiceHelper.parseSeats(prop.getProperty("vipSeats")));
-        return auditorium;
-    }
-
 
     @Override
     public Auditorium getByName(String name) {
-        Set<Auditorium> set = getAuditoriumsSet();
-        return set.stream()
+        return auditoriumSet.stream()
                 .filter(auditorium -> auditorium.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("There is no auditorium"));
+                .findFirst().orElseThrow(() -> new RuntimeException("No auditorium"));
+    }
+
+    private Auditorium parseAuditorium(String props) throws IOException {
+        Properties properties = PropertiesLoaderUtils.loadAllProperties(props);
+        Auditorium auditorium = new Auditorium();
+        auditorium.setId(ServiceHelper.createID());
+        auditorium.setName(properties.getProperty("name"));
+        auditorium.setNumberOfSeats(Integer.parseInt(properties.getProperty("numberOfSeats")));
+        auditorium.setVipSeats(ServiceHelper.parseSeats(properties.getProperty("vipSeats")));
+        return auditorium;
     }
 }
