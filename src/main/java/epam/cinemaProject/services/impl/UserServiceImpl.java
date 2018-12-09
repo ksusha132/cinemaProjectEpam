@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service("UserService")
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    public UserDao userDao;
 
     @Override
     public User getUserById(@NotNull Long id) {

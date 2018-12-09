@@ -2,40 +2,10 @@
 <!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
- 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="user" class="epam.cinemaProject.pojo.user.User">
-        <property name="id" value="1"/>
-        <property name="name" value="Ivan"/>
-        <property name="lastName" value="Sergeev"/>
-        <property name="email" value="ivser@mail.com"/>
-    </bean>
-
-
-    <bean id="birthDayStrategy" class="epam.cinemaProject.discountStrategies.BirthDayStrategy"/>
-    <bean id="everyTenTicketStrategy" class="epam.cinemaProject.discountStrategies.EveryTenTicketStrategy"/>
-    <bean id="newYearStrategy" class="epam.cinemaProject.discountStrategies.NewYearStrategy"/>
-
-    <bean id="userService" class="epam.cinemaProject.services.impl.UserServiceImpl"/>
-    <bean id="auditoriumService" class="epam.cinemaProject.services.impl.AuditoriumServiceImpl"/>
-
-    <bean id="eventService" class="epam.cinemaProject.services.impl.EventServiceImpl">
-        <property name="auditoriumService" ref="auditoriumService"/>
-    </bean>
-
-    <bean id="discountService" class="epam.cinemaProject.services.impl.DiscountServiceImpl">
-        <property name="strategies">
-            <list>
-                <ref bean="birthDayStrategy"/>
-                <ref bean="everyTenTicketStrategy"/>
-                <ref bean="newYearStrategy"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="bookingService" class="epam.cinemaProject.services.impl.BookingServiceImpl">
-        <property name="discountService" ref="discountService"/>
-        <property name="auditoriumService" ref="auditoriumService"/>
-    </bean>
+    <context:component-scan base-package="epam.cinemaProject"/>
 
 </beans>

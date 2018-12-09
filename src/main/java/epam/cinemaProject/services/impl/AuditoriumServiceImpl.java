@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-@Service("AuditoriumService")
+@Service("auditoriumService")
 public class AuditoriumServiceImpl implements AuditoriumService {
 
     private Set<Auditorium> auditoriumSet = new HashSet<>();
@@ -28,7 +28,8 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     }
 
     @Override
-    public Auditorium getByName(String name) {
+    public Auditorium getByName(String name) throws IOException {
+        fillInAuditoriumSet();
         return auditoriumSet.stream()
                 .filter(auditorium -> auditorium.getName().equalsIgnoreCase(name))
                 .findFirst().orElseThrow(() -> new RuntimeException("No auditorium"));

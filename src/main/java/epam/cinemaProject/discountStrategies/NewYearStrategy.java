@@ -2,12 +2,14 @@ package epam.cinemaProject.discountStrategies;
 
 import epam.cinemaProject.pojo.cinema.Event;
 import epam.cinemaProject.pojo.user.User;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Component("newYearStrategy")
 public class NewYearStrategy implements DiscountCounter {
-    //NewYear strategy - give 10%  within 5 days of air date
+    //NewYear strategy - give 70%  within 5 days of air date
 
     @Override
     public Integer countDiscount(User user, Event event, LocalDateTime airDateTime, Integer numberOfTickets) {

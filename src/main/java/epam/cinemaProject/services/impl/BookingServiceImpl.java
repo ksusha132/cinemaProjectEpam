@@ -9,6 +9,7 @@ import epam.cinemaProject.services.AuditoriumService;
 import epam.cinemaProject.services.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class BookingServiceImpl implements epam.cinemaProject.services.BookingSe
     private AuditoriumService auditoriumService;
 
     @Override
-    public Double getTicketsPrice(Event event, LocalDateTime dateTime, User user, String seats) {
+    public Double getTicketsPrice(Event event, LocalDateTime dateTime, User user, String seats) throws IOException {
         Set<Integer> vipSeats = auditoriumService.getByName(event.getAuditoriums().firstEntry().getValue().getName()).getVipSeats(); // optional
         Set<Integer> wantedSeats = ServiceHelper.parseSeats(seats);
 

@@ -8,5 +8,5 @@ import java.util.Set;
 public interface AuditoriumService {
     Set<Auditorium> getAllAuditoriums() throws IOException;
 
-    Auditorium getByName(String name);
+    Auditorium getByName(String name) throws IOException;
 }

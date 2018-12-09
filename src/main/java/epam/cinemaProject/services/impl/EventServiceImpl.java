@@ -8,6 +8,7 @@ import epam.cinemaProject.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,13 @@ public class EventServiceImpl implements EventService {
         event.setName(name);
         event.setBasePrice(basePrice);
         event.setRating(rating);
-        dateTimesEvent.forEach(dtEvent -> event.addAirDateTime(dtEvent, auditoriumService.getByName(auditorium)));
+        dateTimesEvent.forEach(dtEvent -> {
+            try {
+                event.addAirDateTime(dtEvent, auditoriumService.getByName(auditorium));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         return event;
     }
 
