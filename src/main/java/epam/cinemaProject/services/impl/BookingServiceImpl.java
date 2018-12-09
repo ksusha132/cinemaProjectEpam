@@ -8,12 +8,14 @@ import epam.cinemaProject.pojo.user.User;
 import epam.cinemaProject.services.AuditoriumService;
 import epam.cinemaProject.services.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service("bookingService")
 public class BookingServiceImpl implements epam.cinemaProject.services.BookingService {
 
     @Autowired
@@ -27,12 +29,13 @@ public class BookingServiceImpl implements epam.cinemaProject.services.BookingSe
         Set<Integer> wantedSeats = ServiceHelper.parseSeats(seats);
 
         Double basePrice = getBasePrice(event);
-        Integer discount = discountService.getDiscount(user, event, dateTime, wantedSeats.size());
+        Integer discount = discountService.getDiscount(user, event, dateTime, wantedSeats.size()); // 70
 
         Long countVipSeats = wantedSeats.stream().filter(vipSeats::contains).count(); // count vip ticket
         Long seatsTotal = (long) wantedSeats.size(); // all wanted ticket
-
-        return (basePrice * countVipSeats * 2) + ((seatsTotal - countVipSeats) * basePrice);
+        Double priceWithoutDiscount = (basePrice * countVipSeats * 2) + ((seatsTotal - countVipSeats) * basePrice); //100
+        Double discountForTickets = (priceWithoutDiscount * discount) / 100;
+        return priceWithoutDiscount - discountForTickets;
 
     }
 

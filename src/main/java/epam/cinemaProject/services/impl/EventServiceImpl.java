@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Service("eventService")
 public class EventServiceImpl implements EventService {
 
     @Autowired

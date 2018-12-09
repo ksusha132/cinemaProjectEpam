@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 @Repository("EventDao")
 public class EventDaoImpl implements EventDao {
 
-    HashSet<Event> events = new HashSet<>();
+    private HashSet<Event> events = new HashSet<>();
 
     private static Predicate<Event> isIdMatch(Long id) {
         return event -> event.getId().equals(id);
