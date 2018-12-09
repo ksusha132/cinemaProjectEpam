@@ -1,11 +1,9 @@
 package epam.cinemaProject.configuration;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
 
 @Configuration
+@EnableAspectJAutoProxy
 @ComponentScan("epam.cinemaProject")
 @PropertySources({
         @PropertySource("classpath:auditorium1SeatsVip.properties"),
