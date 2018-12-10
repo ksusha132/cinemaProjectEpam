@@ -4,6 +4,15 @@ public class Counter {
 
     private String name;
     private CountType countType;
+    private Integer count;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 
     public String getName() {
         return name;

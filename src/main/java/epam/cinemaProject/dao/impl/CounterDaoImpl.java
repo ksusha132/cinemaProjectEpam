@@ -1,6 +1,7 @@
 package epam.cinemaProject.dao.impl;
 
 import epam.cinemaProject.dao.CounterDao;
+import epam.cinemaProject.pojo.counter.CountType;
 import epam.cinemaProject.pojo.counter.Counter;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,13 @@ public class CounterDaoImpl implements CounterDao {
     @Override
     public void save(Counter counter) {
         set.add(counter);
+    }
+
+    @Override
+    public Counter getByName(String name, CountType countType) {
+        return set.stream()
+                .filter(elem -> elem.getName().equalsIgnoreCase(name) && elem.getCountType() == countType)
+                .findFirst()
+                .orElse(null);
     }
 }
