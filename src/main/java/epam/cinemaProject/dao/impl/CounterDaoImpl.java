@@ -18,7 +18,7 @@ public class CounterDaoImpl implements CounterDao {
     }
 
     @Override
-    public Counter getByName(String name, CountType countType) {
+    public Counter getByNameAndType(String name, CountType countType) {
         return set.stream()
                 .filter(elem -> elem.getName().equalsIgnoreCase(name) && elem.getCountType() == countType)
                 .findFirst()

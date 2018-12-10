@@ -51,7 +51,7 @@ public class CounterAspect {
     }
 
     private void checkAndSet(String eventName, CountType type) {
-        Counter counter = counterDao.getByName(eventName, type);
+        Counter counter = counterDao.getByNameAndType(eventName, type);
         if (counter != null) {
             incrementAndSetCounter(counter);
         } else {

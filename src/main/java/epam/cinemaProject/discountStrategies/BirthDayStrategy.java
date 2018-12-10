@@ -4,7 +4,9 @@ import epam.cinemaProject.pojo.cinema.Event;
 import epam.cinemaProject.pojo.user.User;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component("birthDayStrategy")
 public class BirthDayStrategy implements DiscountCounter {
@@ -19,7 +21,9 @@ public class BirthDayStrategy implements DiscountCounter {
         if (user == null) {
             return false;
         }
-        int birthDay = user.getBirthDay().getDayOfYear();
+        int birthDay = Optional.ofNullable(user.getBirthDay())
+                .map(LocalDate::getDayOfYear)
+                .orElse(0);
         int airDate = airDateTime.toLocalDate().getDayOfYear();
         return (birthDay > airDate - 5) && (birthDay < birthDay + 5);
 

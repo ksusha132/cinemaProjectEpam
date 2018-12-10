@@ -6,5 +6,5 @@ import epam.cinemaProject.pojo.counter.Counter;
 public interface CounterDao {
     void save(Counter counter);
 
-    Counter getByName(String name, CountType type);
+    Counter getByNameAndType(String name, CountType type);
 }
