@@ -2,7 +2,7 @@ package epam.cinemaProject.services;
 
 import epam.cinemaProject.pojo.user.User;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 public interface UserService {
     User getUserById(Long id);
@@ -13,5 +13,5 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    ConcurrentHashMap<Long, User> getAllUsers();
+    List<User> getAllUsers();
 }

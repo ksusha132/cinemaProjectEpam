@@ -2,7 +2,7 @@ package epam.cinemaProject.dao;
 
 import epam.cinemaProject.pojo.user.User;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 public interface UserDao {
     User getById(Long id);
@@ -13,5 +13,5 @@ public interface UserDao {
 
     void delete(Long id);
 
-    ConcurrentHashMap<Long, User> getAll();
+    List<User> getAll();
 }

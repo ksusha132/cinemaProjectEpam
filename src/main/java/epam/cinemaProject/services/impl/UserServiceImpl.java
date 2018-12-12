@@ -2,13 +2,12 @@ package epam.cinemaProject.services.impl;
 
 import com.sun.istack.internal.NotNull;
 import epam.cinemaProject.dao.UserDao;
-import epam.cinemaProject.pojo.user.Role;
 import epam.cinemaProject.pojo.user.User;
 import epam.cinemaProject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -29,13 +28,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(@NotNull String name, @NotNull String lastName, @NotNull String email, String birthDay) {
         User user = new User();
-        Long id = ServiceHelper.createID();
-        user.setId(id);
+        user.setId(ServiceHelper.createID());
         user.setName(name);
         user.setLastName(lastName);
         user.setEmail(email);
         user.setBirthDay(birthDay);
-        user.setRole(Role.USER);
+        user.setRole("USER");
         userDao.save(user);
     }
 
@@ -45,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ConcurrentHashMap<Long, User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userDao.getAll();
     }
 }

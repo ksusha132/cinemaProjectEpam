@@ -1,41 +1,49 @@
 package epam.cinemaProject.dao.impl;
 
 import epam.cinemaProject.dao.UserDao;
+import epam.cinemaProject.dao.mapper.UserMapper;
 import epam.cinemaProject.pojo.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 @Repository("UserDao")
 public class UserDaoImpl implements UserDao {
 
-    private ConcurrentHashMap<Long, User> userList = new ConcurrentHashMap<>();
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public User getById(Long id) {
-        return userList.get(id);
+        String SQL = "SELECT * FROM person WHERE id = ?";
+        return (User) jdbcTemplate.queryForObject(SQL, new Object[]{id}, new UserMapper());
     }
 
     @Override
     public User getByEmail(String email) {
-        return userList.values().stream()
-                .filter(user -> user.getEmail().equalsIgnoreCase(email))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("There is no user with such email"));
+        String SQL = "SELECT * FROM person WHERE email = ?";
+        return (User) jdbcTemplate.queryForObject(SQL, new Object[]{email}, new UserMapper());
     }
 
     @Override
     public void save(User user) {
-        userList.put(user.getId(), user);
+        String qr = "INSERT INTO person (id, name, last_name, email, birthday, role) VALUES (?,?,?,?,?,?)";
+        jdbcTemplate.update(qr, user.getId(), user.getName(), user.getLastName(), user.getEmail(),
+                java.sql.Date.valueOf(user.getBirthDay()), user.getRole());
     }
 
     @Override
     public void delete(Long id) {
-        userList.remove(id);
+        String SQL = "DELETE FROM person WHERE id = ?";
+        jdbcTemplate.update(SQL, id);
     }
 
     @Override
-    public ConcurrentHashMap<Long, User> getAll() {
-        return userList;
+    public List<User> getAll() {
+        String SQL = "SELECT * FROM person";
+        List users = jdbcTemplate.query(SQL, new UserMapper());
+        return users;
     }
 }

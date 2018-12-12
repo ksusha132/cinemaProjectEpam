@@ -20,7 +20,7 @@ public class User {
 
     private LocalDate birthDay;
 
-    private Role role;
+    private String role;
 
     private NavigableSet<BookedTicket> tickets = new TreeSet<>();
 
@@ -64,11 +64,11 @@ public class User {
         this.tickets = tickets;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
