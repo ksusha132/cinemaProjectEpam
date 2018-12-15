@@ -7,14 +7,26 @@ import java.util.NavigableSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+
 public class Event {
     private Long id;
     private String name;
-    private Rating rating;
+    private String rating;
     private double basePrice;
+    private String auditoriumName;
+    private String auditoriumString;
+
+    public String getAuditoriumString() {
+        return auditoriumString;
+    }
+
+    public void setAuditoriumString(String auditoriumString) {
+        this.auditoriumString = auditoriumString;
+    }
 
     private NavigableSet<LocalDateTime> airDates = new TreeSet<>();
     private NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+
 
     public Long getId() {
         return id;
@@ -32,11 +44,11 @@ public class Event {
         this.name = name;
     }
 
-    public Rating getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(Rating rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 
@@ -48,16 +60,22 @@ public class Event {
         this.basePrice = basePrice;
     }
 
+    public String getAuditoriumName() {
+        return auditoriumName;
+    }
+
+    public void setAuditoriumName(String auditoriumName) {
+        this.auditoriumName = auditoriumName;
+    }
+
     /**
      * Checks if event is aired on particular <code>dateTime</code> and assigns
      * auditorium to it.
      *
-     * @param dateTime
-     *            Date and time of aired event for which to assign
-     * @param auditorium
-     *            Auditorium that should be assigned
+     * @param dateTime   Date and time of aired event for which to assign
+     * @param auditorium Auditorium that should be assigned
      * @return <code>true</code> if successful, <code>false</code> if event is
-     *         not aired on that date
+     * not aired on that date
      */
     public boolean assignAuditorium(LocalDateTime dateTime, Auditorium auditorium) {
         if (airDates.contains(dateTime)) {
@@ -71,10 +89,9 @@ public class Event {
     /**
      * Removes auditorium assignment from event
      *
-     * @param dateTime
-     *            Date and time to remove auditorium for
+     * @param dateTime Date and time to remove auditorium for
      * @return <code>true</code> if successful, <code>false</code> if not
-     *         removed
+     * removed
      */
     public boolean removeAuditoriumAssignment(LocalDateTime dateTime) {
         return auditoriums.remove(dateTime) != null;
@@ -83,10 +100,9 @@ public class Event {
     /**
      * Add date and time of event air
      *
-     * @param dateTime
-     *            Date and time to add
+     * @param dateTime Date and time to add
      * @return <code>true</code> if successful, <code>false</code> if already
-     *         there
+     * there
      */
     public boolean addAirDateTime(LocalDateTime dateTime) {
         return airDates.add(dateTime);
@@ -95,12 +111,10 @@ public class Event {
     /**
      * Adding date and time of event air and assigning auditorium to that
      *
-     * @param dateTime
-     *            Date and time to add
-     * @param auditorium
-     *            Auditorium to add if success in date time add
+     * @param dateTime   Date and time to add
+     * @param auditorium Auditorium to add if success in date time add
      * @return <code>true</code> if successful, <code>false</code> if already
-     *         there
+     * there
      */
     public boolean addAirDateTime(LocalDateTime dateTime, Auditorium auditorium) {
         boolean result = airDates.add(dateTime);
@@ -114,8 +128,7 @@ public class Event {
      * Removes the date and time of event air. If auditorium was assigned to
      * that date and time - the assignment is also removed
      *
-     * @param dateTime
-     *            Date and time to remove
+     * @param dateTime Date and time to remove
      * @return <code>true</code> if successful, <code>false</code> if not there
      */
     public boolean removeAirDateTime(LocalDateTime dateTime) {
@@ -129,8 +142,7 @@ public class Event {
     /**
      * Checks if event airs on particular date and time
      *
-     * @param dateTime
-     *            Date and time to check
+     * @param dateTime Date and time to check
      * @return <code>true</code> event airs on that date and time
      */
     public boolean airsOnDateTime(LocalDateTime dateTime) {
@@ -140,8 +152,7 @@ public class Event {
     /**
      * Checks if event airs on particular date
      *
-     * @param date
-     *            Date to ckeck
+     * @param date Date to ckeck
      * @return <code>true</code> event airs on that date
      */
     public boolean airsOnDate(LocalDate date) {
@@ -152,10 +163,8 @@ public class Event {
      * Checking if event airs on dates between <code>from</code> and
      * <code>to</code> inclusive
      *
-     * @param from
-     *            Start date to check
-     * @param to
-     *            End date to check
+     * @param from Start date to check
+     * @param to   End date to check
      * @return <code>true</code> event airs on dates
      */
     public boolean airsOnDates(LocalDate from, LocalDate to) {

@@ -2,7 +2,7 @@ package epam.cinemaProject.dao;
 
 import epam.cinemaProject.pojo.cinema.Event;
 
-import java.util.HashSet;
+import java.util.List;
 
 public interface EventDao {
     void save(Event event);
@@ -13,5 +13,5 @@ public interface EventDao {
 
     Event getByName(String name) throws Throwable;
 
-    HashSet<Event> getAll();
+    List getAll();
 }

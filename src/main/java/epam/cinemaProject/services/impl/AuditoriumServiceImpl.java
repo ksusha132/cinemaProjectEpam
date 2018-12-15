@@ -38,7 +38,6 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     private Auditorium parseAuditorium(String props) throws IOException {
         Properties properties = PropertiesLoaderUtils.loadAllProperties(props);
         Auditorium auditorium = new Auditorium();
-        auditorium.setId(ServiceHelper.createID());
         auditorium.setName(properties.getProperty("name"));
         auditorium.setNumberOfSeats(Integer.parseInt(properties.getProperty("numberOfSeats")));
         auditorium.setVipSeats(ServiceHelper.parseSeats(properties.getProperty("vipSeats")));

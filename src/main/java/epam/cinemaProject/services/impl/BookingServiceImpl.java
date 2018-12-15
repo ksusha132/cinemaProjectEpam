@@ -2,7 +2,6 @@ package epam.cinemaProject.services.impl;
 
 import epam.cinemaProject.pojo.cinema.BookedTicket;
 import epam.cinemaProject.pojo.cinema.Event;
-import epam.cinemaProject.pojo.cinema.Rating;
 import epam.cinemaProject.pojo.cinema.Store;
 import epam.cinemaProject.pojo.user.User;
 import epam.cinemaProject.services.AuditoriumService;
@@ -40,7 +39,7 @@ public class BookingServiceImpl implements epam.cinemaProject.services.BookingSe
     }
 
     private Double getBasePrice(Event event) {
-        if (event.getRating().equals(Rating.HIGH)) {
+        if (event.getRating().equals("high")) {
             return event.getBasePrice() * 1.2; // the price will be the same for each period of time
         } else {
             return event.getBasePrice();

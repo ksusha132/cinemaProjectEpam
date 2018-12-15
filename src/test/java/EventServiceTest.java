@@ -1,5 +1,4 @@
 import epam.cinemaProject.configuration.AuditoriumConfig;
-import epam.cinemaProject.pojo.cinema.Rating;
 import epam.cinemaProject.services.EventService;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +23,7 @@ public class EventServiceTest {
         List<LocalDateTime> dateTimes = new ArrayList<>();
         dateTimes.add(LocalDateTime.parse("2018-12-29 10:00", formatter));
         dateTimes.add(LocalDateTime.parse("2018-12-29 16:00", formatter));
-        eventService.saveEvent("dejavue", Rating.HIGH, 100, dateTimes, "redStage");
+        eventService.saveEvent("dejavue", "high", 100, dateTimes, "redStage");
         assertNotNull(eventService.getByName("dejavue"));
         assertEquals(1, eventService.getAll().size());
         eventService.removeEvent(2L);

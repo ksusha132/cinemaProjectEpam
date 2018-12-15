@@ -1,7 +1,6 @@
 import epam.cinemaProject.configuration.AuditoriumConfig;
 import epam.cinemaProject.pojo.cinema.BookedTicket;
 import epam.cinemaProject.pojo.cinema.Event;
-import epam.cinemaProject.pojo.cinema.Rating;
 import epam.cinemaProject.pojo.cinema.Store;
 import epam.cinemaProject.pojo.user.User;
 import epam.cinemaProject.services.BookingService;
@@ -30,7 +29,7 @@ public class BookingServiceTest {
         List<LocalDateTime> dateTimes = new ArrayList<>();
         dateTimes.add(LocalDateTime.parse("2018-12-29 10:00", formatter));
         dateTimes.add(LocalDateTime.parse("2018-12-29 16:00", formatter));
-        eventService.saveEvent("dejavue", Rating.HIGH, 100, dateTimes, "redStage");
+        eventService.saveEvent("dejavue", "high", 100, dateTimes, "redStage");
 
         User user = new User();
         user.setBirthDay("1993-01-04");

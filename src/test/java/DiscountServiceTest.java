@@ -1,6 +1,5 @@
 import epam.cinemaProject.configuration.AuditoriumConfig;
 import epam.cinemaProject.pojo.cinema.Event;
-import epam.cinemaProject.pojo.cinema.Rating;
 import epam.cinemaProject.pojo.user.User;
 import epam.cinemaProject.services.DiscountService;
 import org.junit.jupiter.api.Test;
@@ -29,7 +28,7 @@ class DiscountServiceTest {
 
         Event event = new Event();
         event.setBasePrice(200);
-        event.setRating(Rating.HIGH);
+        event.setRating("high");
         event.setName("Something");
 
         assertNotNull(discountService.getDiscount(user, new Event(), LocalDateTime.parse("2018-12-29 10:30", formatter), 10));

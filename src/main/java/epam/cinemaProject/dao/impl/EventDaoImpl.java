@@ -1,56 +1,58 @@
 package epam.cinemaProject.dao.impl;
 
 import epam.cinemaProject.dao.EventDao;
+import epam.cinemaProject.dao.mapper.EventMapper;
 import epam.cinemaProject.pojo.cinema.Event;
+import epam.cinemaProject.services.impl.AuditoriumServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.function.Predicate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Repository("EventDao")
 public class EventDaoImpl implements EventDao {
 
-    private HashSet<Event> events = new HashSet<>();
-
-    private static Predicate<Event> isIdMatch(Long id) {
-        return event -> event.getId().equals(id);
-    }
-
-    private static Predicate<Event> isNameMatch(String name) {
-        return event -> event.getName().equals(name);
-    }
+    @Autowired
+    AuditoriumServiceImpl auditoriumService;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public void save(Event event) {
-        events.add(event);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        StringBuilder stringBuilder = new StringBuilder();
+        event.getAirDates().forEach(ad -> {
+            stringBuilder.append(ad.format(formatter)).append(";");
+        });
+
+        String qr = "INSERT INTO event (id, name, rating, base_price, date_time, auditorium) VALUES (?,?,?,?,?,?)";
+        jdbcTemplate.update(qr, event.getId(), event.getName(), event.getRating(), event.getBasePrice(),
+                stringBuilder, event.getAuditoriumName());
     }
 
     @Override
-    public void remove(Long id) throws Throwable {
-        Event event = getEventBy(isIdMatch(id));
-        event.clearAuditoriumAndAirdates();
-        events.remove(event);
+    public void remove(Long id) {
+        String SQL = "DELETE FROM event WHERE id = ?";
+        jdbcTemplate.update(SQL, id);
     }
 
     @Override
-    public Event getById(Long id) throws Throwable {
-        return getEventBy(isIdMatch(id));
+    public Event getById(Long id) {
+        String SQL = "SELECT * FROM event WHERE id = ?";
+        return (Event) jdbcTemplate.queryForObject(SQL, new Object[]{id}, new EventMapper(auditoriumService));
     }
 
     @Override
-    public Event getByName(String name) throws Throwable {
-        return getEventBy(isNameMatch(name));
+    public Event getByName(String name) {
+        String SQL = "SELECT * FROM event WHERE name = ?";
+        return (Event) jdbcTemplate.queryForObject(SQL, new Object[]{name}, new EventMapper(auditoriumService));
     }
 
     @Override
-    public HashSet<Event> getAll() {
-        return events;
-    }
-
-    private Event getEventBy(Predicate predicate) throws Throwable {
-        return (Event) events.stream()
-                .filter(predicate)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("no match"));
+    public List<Event> getAll() {
+        String SQL = "SELECT * FROM event";
+        return jdbcTemplate.query(SQL, new EventMapper(auditoriumService));
     }
 }

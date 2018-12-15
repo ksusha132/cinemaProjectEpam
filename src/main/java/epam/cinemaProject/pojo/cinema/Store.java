@@ -8,7 +8,7 @@ public class Store {
 
     public static Set<BookedTicket> getBookedTickets() {
         return bookedTickets;
-    }
+    } // todo create table and put it into db
 
     public static void setToBoockedTicketsList(BookedTicket bookedTicket) {
         if (bookedTickets.contains(bookedTicket)) {
