@@ -27,10 +27,10 @@ public class EventMapper implements RowMapper {
     public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
         Event event = new Event();
         event.setId(rs.getLong("id"));
-        event.setName(rs.getString("name"));
-        event.setRating(rs.getString("rating"));
+        event.setName(rs.getString("name").replaceAll("\\s+", ""));
+        event.setRating(rs.getString("rating").replaceAll("\\s+", ""));
         event.setBasePrice(rs.getDouble("base_price"));
-        event.setAuditoriumName(rs.getString("auditorium"));
+        event.setAuditoriumName(rs.getString("auditorium").replaceAll("\\s+", ""));
         try {
             parseStringToLocalDateTime(event, rs.getString("date_time"));
         } catch (IOException e) {
@@ -45,7 +45,8 @@ public class EventMapper implements RowMapper {
         String[] dateTimes = dateAndTimes.split(";");
         for (String dateTime : dateTimes) {
             if (dateTime != null) {
-                event.addAirDateTime(LocalDateTime.parse(dateTime, formatter), auditoriumService.getByName(event.getAuditoriumName()));
+                event.addAirDateTime(LocalDateTime.parse(dateTime, formatter),
+                        auditoriumService.getByName(event.getAuditoriumName()));
             } else {
                 throw new RuntimeException("no dates");
             }

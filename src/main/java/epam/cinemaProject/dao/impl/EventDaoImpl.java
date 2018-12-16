@@ -18,7 +18,6 @@ public class EventDaoImpl implements EventDao {
     AuditoriumServiceImpl auditoriumService;
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     @Override
     public void save(Event event) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
