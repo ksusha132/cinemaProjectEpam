@@ -27,17 +27,18 @@ class DiscountServiceTest {
         user.setLastName("Senov");
 
         Event event = new Event();
+        event.setId(1L);
         event.setBasePrice(200);
         event.setRating("high");
         event.setName("Something");
 
-        assertNotNull(discountService.getDiscount(user, new Event(), LocalDateTime.parse("2018-12-29 10:30", formatter), 10));
-        assertEquals(java.util.Optional.of(70).get(), discountService.getDiscount(user, new Event(), LocalDateTime.parse("2018-12-29 10:30", formatter), 10));
+        assertNotNull(discountService.getDiscount(user, event, LocalDateTime.parse("2018-12-29 10:30", formatter), 10));
+        assertEquals(java.util.Optional.of(70).get(), discountService.getDiscount(user, event, LocalDateTime.parse("2018-12-29 10:30", formatter), 10));
 
         assertNotNull(discountService.getDiscount(user, event, LocalDateTime.parse("2018-11-29 10:30", formatter), 20));
         assertEquals(java.util.Optional.of(5).get(), discountService.getDiscount(user, event, LocalDateTime.parse("2018-11-29 10:30", formatter), 20));
 
         assertNotNull(discountService.getDiscount(user, event, LocalDateTime.parse("2018-01-06 10:30", formatter), 10));
-        assertEquals(java.util.Optional.of(7).get(), discountService.getDiscount(user, new Event(), LocalDateTime.parse("2018-01-05 10:30", formatter), 2));
+        assertEquals(java.util.Optional.of(7).get(), discountService.getDiscount(user, event, LocalDateTime.parse("2018-01-05 10:30", formatter), 2));
     }
 }

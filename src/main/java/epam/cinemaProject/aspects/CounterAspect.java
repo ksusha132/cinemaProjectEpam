@@ -3,7 +3,6 @@ package epam.cinemaProject.aspects;
 import epam.cinemaProject.dao.CounterDao;
 import epam.cinemaProject.pojo.cinema.BookedTicket;
 import epam.cinemaProject.pojo.cinema.Event;
-import epam.cinemaProject.pojo.counter.CountType;
 import epam.cinemaProject.pojo.counter.Counter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -33,24 +32,24 @@ public class CounterAspect {
     @Before("getEventByName()")
     public void countBeforeGetByName(JoinPoint joinPoint) {
         String eventName = String.valueOf(joinPoint.getArgs()[0]);
-        checkAndSet(eventName, CountType.GET_BY_NAME);
+        checkAndSet(eventName, "GET_BY_NAME");
     }
 
     @Before("getTicketsPrice()")
     public void countBeforeGetTicketPrice(JoinPoint joinPoint) {
         Event event = (Event) joinPoint.getArgs()[0];
         String eventName = event.getName();
-        checkAndSet(eventName, CountType.GET_EVENT_PRICE);
+        checkAndSet(eventName, "GET_EVENT_PRICE");
     }
 
     @Before("bookTickets()")
     public void countBeforeBookTickets(JoinPoint joinPoint) {
         BookedTicket bookedTicket = (BookedTicket) joinPoint.getArgs()[0];
         String eventName = bookedTicket.getEvent().getName();
-        checkAndSet(eventName, CountType.BOOK_TICKETS);
+        checkAndSet(eventName, "BOOK_TICKETS");
     }
 
-    private void checkAndSet(String eventName, CountType type) {
+    private void checkAndSet(String eventName, String type) {
         Counter counter = counterDao.getByNameAndType(eventName, type);
         if (counter != null) {
             incrementAndSetCounter(counter);
@@ -61,10 +60,10 @@ public class CounterAspect {
 
     private void incrementAndSetCounter(Counter counter) {
         counter.setCount(counter.getCount() + 1);
-        counterDao.save(counter);
+        counterDao.update(counter);
     }
 
-    private void createCounter(String s, CountType countType) {
+    private void createCounter(String s, String countType) {
         Counter counter1 = new Counter();
         counter1.setName(s);
         counter1.setCount(1);

@@ -3,7 +3,7 @@ package epam.cinemaProject.pojo.counter;
 public class Counter {
 
     private String name;
-    private CountType countType;
+    private String countType;
     private Integer count;
 
     public Integer getCount() {
@@ -22,11 +22,11 @@ public class Counter {
         this.name = name;
     }
 
-    public CountType getCountType() {
+    public String getCountType() {
         return countType;
     }
 
-    public void setCountType(CountType countType) {
+    public void setCountType(String countType) {
         this.countType = countType;
     }
 }

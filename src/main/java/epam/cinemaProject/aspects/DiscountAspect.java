@@ -2,7 +2,6 @@ package epam.cinemaProject.aspects;
 
 import epam.cinemaProject.dao.DiscountCounterDao;
 import epam.cinemaProject.pojo.counter.DiscountCounter;
-import epam.cinemaProject.pojo.counter.DiscountType;
 import epam.cinemaProject.pojo.user.User;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -24,44 +23,40 @@ public class DiscountAspect {
     }
 
     @Around("getDiscount()")
-    public void countBeforeGetByName(ProceedingJoinPoint joinPoint) throws Throwable {
-        DiscountType discountType = getDiscount(joinPoint);
+    public Integer countBeforeGetByName(ProceedingJoinPoint joinPoint) throws Throwable {
+        String discountType = getDiscount(joinPoint);
         User user = (User) joinPoint.getArgs()[0];
-        DiscountCounter dc = discountCounter.getByTypeAndLoggedUser(discountType);
+        Boolean loggedUser = user.getBirthDay() != null;
+        DiscountCounter dc = discountCounter.getByTypeAndLoggedUser(discountType, loggedUser);
         if (dc != null && discountType != null) {
-            DiscountCounter disCount = new DiscountCounter();
-            disCount.setCount(disCount.getCount() + 1);
-            discountCounter.save(disCount);
+            dc.setCount(dc.getCount() + 1);
+            discountCounter.update(dc);
         } else if (dc == null && discountType != null && user.getBirthDay() != null) {
             createDiscountCounter(discountType, true);
+
         } else if (dc == null && discountType != null && user.getBirthDay() == null) {
             createDiscountCounter(discountType, false);
         }
+        return (Integer) joinPoint.proceed();
     }
 
-    private void createDiscountCounter(DiscountType discountType, Boolean loggedUser) {
-        DiscountCounter discountCounter1 = new DiscountCounter();
-        discountCounter1.setCount(1);
-        discountCounter1.setLoggedUser(loggedUser);
-        discountCounter1.setType(discountType);
-        discountCounter.save(discountCounter1);
+    private void createDiscountCounter(String discountType, Boolean loggedUser) {
+        DiscountCounter dc = new DiscountCounter();
+        dc.setCount(1);
+        dc.setLoggedUser(loggedUser);
+        dc.setType(discountType);
+        discountCounter.save(dc);
     }
 
-    private DiscountType getDiscount(ProceedingJoinPoint joinPoint) throws Throwable {
+    private String getDiscount(ProceedingJoinPoint joinPoint) throws Throwable {
         Integer discount = (Integer) joinPoint.proceed();
         if (discount == 70) {
-            return DiscountType.NEYYEAR;
+            return "NEYYEAR";
         } else if (discount == 7) {
-            return DiscountType.BIRTHDAY;
+            return "BIRTHDAY";
         } else if (discount == 5) {
-            return DiscountType.TENTICKET;
+            return "TENTICKET";
         }
         return null;
-    }
-
-    private void createCounter() {
-        DiscountCounter dc = new DiscountCounter();
-        dc.setLoggedUser(true);
-        dc.setType(DiscountType.NEYYEAR);
     }
 }
